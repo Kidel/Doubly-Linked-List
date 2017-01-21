@@ -1,5 +1,5 @@
-#include <stdio.h>
 #include <iostream>
+#include <conio.h>
 
 #include "DoublyLinkedList.h"
 
@@ -135,7 +135,9 @@ int main()
 	cout << "\n";
 	cout << "\n";
 
-	system("PAUSE");
+	cout <<  "Press any key to exit...";
+	getch();
+
 	return 0;
 }
 
