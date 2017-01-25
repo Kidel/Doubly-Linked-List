@@ -2,6 +2,7 @@
 #include <conio.h>
 
 #include "DoublyLinkedList.h"
+#include "main.h"
 
 using namespace std;
 
@@ -11,6 +12,11 @@ void pause()
 {
 	cout << "Press any key to exit...";
 	getch();
+}
+
+DoublyLinkedList<int> flatList;
+void concatToFlatList(DoublyLinkedList<int> list) {
+	flatList.concat(list);
 }
 
 int main()
@@ -90,17 +96,26 @@ int main()
 	cout << "The index of element 0 is " << list.indexOf(0) << "\n";
 	cout << "The index of element 2 is " << list.indexOf(2) << "\n";
 
+	cout << "\n";
+
 	list.pushBack(5);
 	cout << "pushBack 5 \n";
 	list.print();
 
 	list.insert(2, 6);
-	cout << "insert 5 in position 2 \n";
+	cout << "insert 6 in position 2 \n";
 	list.print();
+
+	cout << "\n";
 
 	cout << "The index of element 6 is " << list.indexOf(6) << "\n";
 
 	cout << "\n";
+
+	cout << "The head value is " << list.getHead() << "\n";
+	cout << "The tail value is " << list.getTail() << "\n";
+	cout << "The size of the list is " << list.getSize() << "\n";
+
 	cout << "\n";
 
 	DoublyLinkedList<string> listString;
@@ -115,7 +130,6 @@ int main()
 	cout << listString << "\n";
 
 	cout << "\n";
-	cout << "\n";
 
 	DoublyLinkedList<int> list2;
 	cout << "Another list <int>\n";
@@ -125,7 +139,6 @@ int main()
 	list2.print();
 
 	cout << "\n";
-	cout << "\n";
 
 	DoublyLinkedList<DoublyLinkedList<int>> inceptionList;
 	cout << "A list of lists of <int>\n";
@@ -133,10 +146,30 @@ int main()
 
 	cout << "\n";
 
-	inceptionList.pushFront(list);
-	inceptionList.pushFront(list2);
-	cout << "pushFront of the 2 <int> lists previously created\n";
+	inceptionList.pushBack(list);
+	inceptionList.pushBack(list2);
+	cout << "pushBack of the 2 <int> lists previously created\n";
 	cout << inceptionList << "\n";
+
+	cout << "\n";
+
+	list.concat(list2);
+	cout << "list concat of the 2 lists\n";
+	cout << list << "\n";
+
+	cout << "\n";
+
+	inceptionList.map(concatToFlatList);
+	cout << "Flatten of the list of lists using map\n";
+	cout << flatList << "\n";
+
+	cout << "\n";
+
+	cout << "Are the 2 lists equal? " << (flatList == list ? "True" : "False") << "\n";
+	flatList.pushBack(3);
+	list.pushBack(1);
+	cout << "pushBack of 1 to a list and 3 to the other\n";
+	cout << "Are the 2 lists equal? " << (flatList == list ? "True" : "False") << "\n";
 
 	cout << "\n";
 	cout << "\n";
