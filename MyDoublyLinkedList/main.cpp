@@ -7,6 +7,12 @@ using namespace std;
 
 using namespace MyList;
 
+void pause()
+{
+	cout << "Press any key to exit...";
+	getch();
+}
+
 int main()
 {
 	DoublyLinkedList<int> list;
@@ -135,9 +141,9 @@ int main()
 	cout << "\n";
 	cout << "\n";
 
-	cout <<  "Press any key to exit...";
-	getch();
+	pause();
 
 	return 0;
 }
+
 
