@@ -19,6 +19,14 @@ void concatToFlatList(DoublyLinkedList<int> list) {
 	flatList.concat(list);
 }
 
+bool isEqualToSix(int n) {
+	return n == 6;
+}
+
+bool isPositive(int n) {
+	return n >= 0;
+}
+
 int main()
 {
 	DoublyLinkedList<int> list;
@@ -159,8 +167,14 @@ int main()
 
 	cout << "\n";
 
-	inceptionList.map(concatToFlatList);
-	cout << "Flatten of the list of lists using map\n";
+	cout << "Is every member of the list " << list << " positive? " << (list.every(isPositive) ? "True" : "False") << "\n";
+	cout << "Is any member of the list " << list << " equal to 6? " << (list.any(isEqualToSix) ? "True" : "False") << "\n";
+	cout << "Is every member of the list " << list << " equal to 6? " << (list.every(isEqualToSix) ? "True" : "False") << "\n";
+
+	cout << "\n";
+
+	inceptionList.forEach(concatToFlatList);
+	cout << "Flatten of the list of lists using forEach\n";
 	cout << flatList << "\n";
 
 	cout << "\n";
@@ -178,8 +192,14 @@ int main()
 	try {
 		cout << "The element in position 8 of list " << list << " is " << list[8] << "\n";
 	}
-	catch (runtime_error) {
-		cout << "Attempted to get element in position 8 but got runtime error, as expected \n";
+	catch (runtime_error e) {
+		cout << "Attempted to get element in position 8 but got \"" << e.what() << "\" exception, as expected \n";
+	}
+	try {
+		cout << "The element in position -1 of list " << list << " is " << list[8] << "\n";
+	}
+	catch (runtime_error e) {
+		cout << "Attempted to get element in position -1 but got \"" << e.what() << "\" exception, as expected \n";
 	}
 
 	cout << "\n";

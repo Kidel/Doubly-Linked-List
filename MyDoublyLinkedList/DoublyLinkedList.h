@@ -27,7 +27,9 @@ namespace MyList {
 		DoublyLinkedList<T> & concat(const DoublyLinkedList<T> & list);
 		int indexOf(const T & x) const;
 
-		DoublyLinkedList<T> & map(void(*func)(T));
+		DoublyLinkedList<T> & forEach(void(*func)(T));
+		bool every(bool(*func)(T));
+		bool any(bool(*func)(T));
 
 		void operator=(const DoublyLinkedList<T> & list);
 		bool operator==(const DoublyLinkedList<T> & list);
@@ -105,11 +107,21 @@ namespace MyList {
 	T & DoublyLinkedList<T>::operator[](unsigned const int index) {
 		if (index < 0 || index >= size)
 			throw runtime_error("Index out of bounds");
-		Node <T> * currentNode = head;
-		for (unsigned int i = 0; i < size; i++) {
-			if (i == index) return currentNode->value;
-			currentNode = currentNode->next;
+		if (index < size / 2) {
+			Node <T> * currentNode = head;
+			for (unsigned int i = 0; i < size; i++) {
+				if (i == index) return currentNode->value;
+				currentNode = currentNode->next;
+			}
 		}
+		else {
+			Node <T> * currentNode = tail;
+			for (unsigned int i = size-1; i >=0 ; i--) {
+				if (i == index) return currentNode->value;
+				currentNode = currentNode->previous;
+			}
+		}
+		throw runtime_error("Unexpected error");
 	}
 
 	template <class T>
@@ -291,12 +303,37 @@ namespace MyList {
 		return *this;
 	}
 
+	/// <summary>
+	/// <c>forEach</c> returns the list after the given function is applied to every member.
+	/// </summary>
 	template <class T>
-	DoublyLinkedList<T> & DoublyLinkedList<T>::map(void(*func)(T))
+	DoublyLinkedList<T> & DoublyLinkedList<T>::forEach(void(*func)(T))
 	{
 		for (Node<T> * currentNode = head; currentNode != 0; currentNode = currentNode->next)
 			(*func)(currentNode->value);
 		return *this;
+	}
+
+	/// <summary>
+	/// <c>every</c> returns true if every member of the list return true to the given function. 
+	/// </summary>
+	template <class T>
+	bool DoublyLinkedList<T>::every(bool(*func)(T))
+	{
+		for (Node<T> * currentNode = head; currentNode != 0; currentNode = currentNode->next)
+			if (!(*func)(currentNode->value)) return false;
+		return true;
+	}
+
+	/// <summary>
+	/// <c>any</c> returns true if at least one member of the list returns true to the given function. 
+	/// </summary>
+	template <class T>
+	bool DoublyLinkedList<T>::any(bool(*func)(T))
+	{
+		for (Node<T> * currentNode = head; currentNode != 0; currentNode = currentNode->next)
+			if ((*func)(currentNode->value)) return true;
+		return false;
 	}
 
 	/// <summary>

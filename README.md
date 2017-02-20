@@ -85,12 +85,21 @@ pushBack of the 2 <int> lists previously created
 list concat of the 2 lists
 [ 0; 1; 6; 5; 1; 1; 1 ]
 
-Flatten of the list of lists using map
+Is every member of the list [ 0; 1; 6; 5; 1; 1; 1 ] positive? True
+Is any member of the list [ 0; 1; 6; 5; 1; 1; 1 ] equal to 6? True
+Is every member of the list [ 0; 1; 6; 5; 1; 1; 1 ] equal to 6? False
+
+Flatten of the list of lists using forEach
 [ 0; 1; 6; 5; 1; 1; 1 ]
 
 Are the 2 lists equal? True
 pushBack of 1 to a list and 3 to the other
 Are the 2 lists equal? False
+
+The element in position 2 of list [ 0; 1; 6; 5; 1; 1; 1; 1 ] is 6
+The element in position 6 of list [ 0; 1; 6; 5; 1; 1; 1; 1 ] is 1
+Attempted to get element in position 8 but got "Index out of bounds" exception, as expected
+Attempted to get element in position -1 but got "Index out of bounds" exception, as expected
 
 
 Press any key to exit...
