@@ -172,6 +172,17 @@ int main()
 	cout << "Are the 2 lists equal? " << (flatList == list ? "True" : "False") << "\n";
 
 	cout << "\n";
+
+	cout << "The element in position 2 of list " << list << " is " << list[2] << "\n";
+	cout << "The element in position 6 of list " << list << " is " << list[6] << "\n";
+	try {
+		cout << "The element in position 8 of list " << list << " is " << list[8] << "\n";
+	}
+	catch (runtime_error) {
+		cout << "Attempted to get element in position 8 but got runtime error, as expected \n";
+	}
+
+	cout << "\n";
 	cout << "\n";
 
 	pause();

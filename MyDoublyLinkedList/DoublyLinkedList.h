@@ -31,6 +31,7 @@ namespace MyList {
 
 		void operator=(const DoublyLinkedList<T> & list);
 		bool operator==(const DoublyLinkedList<T> & list);
+		T & operator[](unsigned const int index);
 
 		string to_string(char separator = ';');
 		void print(char separator = ';');
@@ -98,6 +99,17 @@ namespace MyList {
 		else return false;
 
 		return true;
+	}
+
+	template <class T>
+	T & DoublyLinkedList<T>::operator[](unsigned const int index) {
+		if (index < 0 || index >= size)
+			throw runtime_error("Index out of bounds");
+		Node <T> * currentNode = head;
+		for (unsigned int i = 0; i < size; i++) {
+			if (i == index) return currentNode->value;
+			currentNode = currentNode->next;
+		}
 	}
 
 	template <class T>
