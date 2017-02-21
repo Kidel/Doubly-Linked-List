@@ -47,7 +47,7 @@ int main()
 
 	cout << "\n";
 
-	cout << "Copy of the list\n";
+	cout << "Copy of the list " << list << " is: \n";
 	DoublyLinkedList<int> listCopy;
 	cout << (listCopy = list) << "\n";
 	cout << "pushBack 2 to original list\n";
@@ -66,6 +66,8 @@ int main()
 	cout << listIn2 << "\n";
 
 	cout << "\n";
+
+	cout << "Using list " << list << "\n";
 
 	list.popFront();
 	cout << "popFront\n";
@@ -119,21 +121,21 @@ int main()
 
 	cout << "\n";
 
-	cout << "Using list " << listIn2 << "\n";
-	DoublyLinkedList<int>::iterator it = listIn2.begin();
-	listIn2.insert(it, 5);
+	DoublyLinkedList<int> emptyList;
+	cout << "Using list " << emptyList << "\n";
+	DoublyLinkedList<int>::iterator it1 = emptyList.begin();
+	emptyList.insert(it1, 5);
 	cout << "insert 5 (with iterator) in position 0\n";
-	listIn2.print();
-	it++;
-	listIn2.insert(it, 6);
+	cout << emptyList << "\n";
+	emptyList.insert(it1, 4);
+	cout << "insert 4 (with iterator) in position 0\n";
+	cout << emptyList << "\n";
+	emptyList.insert(++it1, 6);
 	cout << "insert 6 (with iterator) in position 1\n";
-	listIn2.print();
-	it++;
-	for (int count = 0; count < 3; count++) {
-		listIn2.insert(it, count);
-		cout << "insert " << count << " (with iterator) in position 2\n";
-		listIn2.print();
-	}
+	cout << emptyList << "\n";
+	emptyList.erase(it1);
+	cout << "erase (with iterator) in position 1 \n";
+	cout << emptyList << "\n";
 
 	cout << "\n";
 

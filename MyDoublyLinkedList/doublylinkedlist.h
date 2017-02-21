@@ -99,14 +99,15 @@ namespace MyList {
 	template <class T>
 	typename DoublyLinkedList<T>::iterator DoublyLinkedList<T>::end() const
 	{
-		return iterator(tail);
+		if (tail == 0) return iterator(tail);
+		return iterator(tail->next);
 	}
 
 	template <class T>
 	DoublyLinkedList<T>& DoublyLinkedList<T>::operator=(initializer_list<T> l)
 	{
 		initializer_list<T>::iterator it;
-		for (it = l.begin(); it != l.end(); ++it)
+		for (it = l.begin(); it != l.end(); it++)
 			pushBack(*it);
 
 		return *this;
@@ -379,7 +380,7 @@ namespace MyList {
 			position.currentNode->previous->next = position.currentNode->next;
 		if (position == begin())
 			head = position.currentNode->next;
-		if (position == end())
+		if (position+1 == end())
 			tail = position.currentNode->previous;
 		delete position.currentNode;
 		position = newIterator;
@@ -450,13 +451,11 @@ namespace MyList {
 		ostringstream oss;
 
 		oss << "[ ";
-		Node<T>* currentNode = head;
-		for (unsigned int i = 0; i < size; i++) {
-			oss << currentNode->value;
-			if (i < size - 1)
+		for (iterator i = begin(); i != end(); i++) {
+			oss << i.currentNode->value;
+			if ((i+1) != end())
 				oss << separator;			
 			oss << ' ';
-			currentNode = currentNode->next;
 		}
 		oss << "]";
 

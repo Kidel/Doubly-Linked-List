@@ -119,6 +119,6 @@ namespace MyList
 	template <class T>
 	bool Iterator<T>::operator!=(const iterator& i) const
 	{
-		return !(*this == i);
+		return !(this->currentNode == i.currentNode);
 	}
 }
