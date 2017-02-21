@@ -1,7 +1,7 @@
 #include <iostream>
 #include <conio.h>
 
-#include "DoublyLinkedList.h"
+#include "doublylinkedlist.h"
 #include "main.h"
 
 using namespace std;

@@ -1,6 +1,6 @@
 #pragma once
 #include <sstream>
-#include "Node.h"
+#include "node.h"
 
 using namespace std;
 
@@ -11,29 +11,29 @@ namespace MyList {
 	{
 	public:
 		DoublyLinkedList() = default;
-		DoublyLinkedList(const DoublyLinkedList<T> & list);
+		DoublyLinkedList(const DoublyLinkedList<T>& list);
 		~DoublyLinkedList();
 
 		bool isEmpty() const;
 		unsigned int getSize() const;
-		T & getHead() const;
-		T & getTail() const;
-		DoublyLinkedList<T> & pushFront(const T & x);
-		DoublyLinkedList<T> & pushBack(const T & x);
-		DoublyLinkedList<T> & popFront();
-		DoublyLinkedList<T> & popBack();
-		DoublyLinkedList<T> & insert(unsigned int position, const T & x);
-		DoublyLinkedList<T> & erase(unsigned int position);
-		DoublyLinkedList<T> & concat(const DoublyLinkedList<T> & list);
-		int indexOf(const T & x) const;
+		T& getHead() const;
+		T& getTail() const;
+		DoublyLinkedList<T>& pushFront(const T& x);
+		DoublyLinkedList<T>& pushBack(const T& x);
+		DoublyLinkedList<T>& popFront();
+		DoublyLinkedList<T>& popBack();
+		DoublyLinkedList<T>& insert(unsigned int position, const T& x);
+		DoublyLinkedList<T>& erase(unsigned int position);
+		DoublyLinkedList<T>& concat(const DoublyLinkedList<T>& list);
+		int indexOf(const T& x) const;
 
-		DoublyLinkedList<T> & forEach(void(*func)(T));
+		DoublyLinkedList<T>& forEach(void(*func)(T));
 		bool every(bool(*func)(T));
 		bool any(bool(*func)(T));
 
-		void operator=(const DoublyLinkedList<T> & list);
-		bool operator==(const DoublyLinkedList<T> & list);
-		T & operator[](unsigned const int index);
+		void operator=(const DoublyLinkedList<T>& list);
+		bool operator==(const DoublyLinkedList<T>& list);
+		T& operator[](unsigned const int index);
 
 		string to_string(char separator = ';');
 		void print(char separator = ';');
@@ -53,13 +53,22 @@ namespace MyList {
 	// https://isocpp.org/wiki/faq/templates#templates-defn-vs-decl
 
 	template <class T>
-	DoublyLinkedList<T>::DoublyLinkedList(const DoublyLinkedList<T> & list)
+	DoublyLinkedList<T>::DoublyLinkedList(const DoublyLinkedList<T>& list)
 	{
 		head = 0;
 		tail = 0;
 		size = 0;
 		concat(list);
 	}
+
+	/*template <class T>
+	DoublyLinkedList<T>::DoublyLinkedList(const initializer_list<T> l)
+	{
+		head = 0;
+		tail = 0;
+		size = 0;
+		concat(list);
+	}*/
 
 	template <class T>
 	DoublyLinkedList<T>::~DoublyLinkedList()
@@ -74,7 +83,7 @@ namespace MyList {
 	}
 
 	template <class T>
-	void DoublyLinkedList<T>::operator=(const DoublyLinkedList<T> & list)
+	void DoublyLinkedList<T>::operator=(const DoublyLinkedList<T>& list)
 	{
 		head = list.head;
 		tail = list.tail;
@@ -82,7 +91,7 @@ namespace MyList {
 	}
 
 	template <class T>
-	bool DoublyLinkedList<T>::operator==(const DoublyLinkedList<T> & list)
+	bool DoublyLinkedList<T>::operator==(const DoublyLinkedList<T>& list)
 	{
 		if (size == list.getSize()) {
 			Node <T> * currentNode = head;
@@ -104,7 +113,7 @@ namespace MyList {
 	}
 
 	template <class T>
-	T & DoublyLinkedList<T>::operator[](unsigned const int index) {
+	T& DoublyLinkedList<T>::operator[](unsigned const int index) {
 		if (index < 0 || index >= size)
 			throw runtime_error("Index out of bounds");
 		if (index < size / 2) {
@@ -137,19 +146,19 @@ namespace MyList {
 	}
 
 	template <class T>
-	T & DoublyLinkedList<T>::getHead() const
+	T& DoublyLinkedList<T>::getHead() const
 	{
 		return head->value;
 	}
 
 	template <class T>
-	T & DoublyLinkedList<T>::getTail() const
+	T& DoublyLinkedList<T>::getTail() const
 	{
 		return tail->value;
 	}
 
 	template <class T>
-	DoublyLinkedList<T> & DoublyLinkedList<T>::pushFront(const T & x)
+	DoublyLinkedList<T>& DoublyLinkedList<T>::pushFront(const T& x)
 	{
 		Node<T> * newNode = new Node<T>(x);
 		if (!isEmpty()) {
@@ -166,7 +175,7 @@ namespace MyList {
 	}
 
 	template <class T>
-	DoublyLinkedList<T> & DoublyLinkedList<T>::pushBack(const T & x)
+	DoublyLinkedList<T>& DoublyLinkedList<T>::pushBack(const T& x)
 	{
 		Node<T> * newNode = new Node<T>(x);
 		if (!isEmpty()) {
@@ -186,7 +195,7 @@ namespace MyList {
 	/// <c>popFront</c> deletes the first element of the list (if there is one).
 	/// </summary>
 	template <class T>
-	DoublyLinkedList<T> & DoublyLinkedList<T>::popFront()
+	DoublyLinkedList<T>& DoublyLinkedList<T>::popFront()
 	{
 		if (isEmpty()) return *this;
 
@@ -209,7 +218,7 @@ namespace MyList {
 	/// <c>popBack</c> deletes the last element of the list (if there is one).
 	/// </summary>
 	template <class T>
-	DoublyLinkedList<T> & DoublyLinkedList<T>::popBack()
+	DoublyLinkedList<T>& DoublyLinkedList<T>::popBack()
 	{
 		if (isEmpty()) return *this;
 
@@ -233,7 +242,7 @@ namespace MyList {
 	/// If the position is higher then size-1 then the element is pushed to the tail.
 	/// </summary>
 	template <class T>
-	DoublyLinkedList<T> & DoublyLinkedList<T>::insert(unsigned int position, const T & x)
+	DoublyLinkedList<T>& DoublyLinkedList<T>::insert(unsigned int position, const T& x)
 	{
 		if (position == 0 || size == 0) return pushFront(x);
 		if (position >= size) return pushBack(x);
@@ -266,7 +275,7 @@ namespace MyList {
 	/// If the position is higher then size-1 then no element is deleted.
 	/// </summary>
 	template <class T>
-	DoublyLinkedList<T> & DoublyLinkedList<T>::erase(unsigned int position)
+	DoublyLinkedList<T>& DoublyLinkedList<T>::erase(unsigned int position)
 	{
 		if (position == 0 || size == 1) return popFront();
 		if (position == size - 1) return popBack();
@@ -296,7 +305,7 @@ namespace MyList {
 	}
 
 	template <class T>
-	DoublyLinkedList<T> & DoublyLinkedList<T>::concat(const DoublyLinkedList<T> & list)
+	DoublyLinkedList<T>& DoublyLinkedList<T>::concat(const DoublyLinkedList<T>& list)
 	{
 		for (Node<T> * currentNode = list.head; currentNode != 0; currentNode = currentNode->next)
 			pushBack(currentNode->value);
@@ -307,7 +316,7 @@ namespace MyList {
 	/// <c>forEach</c> returns the list after the given function is applied to every member.
 	/// </summary>
 	template <class T>
-	DoublyLinkedList<T> & DoublyLinkedList<T>::forEach(void(*func)(T))
+	DoublyLinkedList<T>& DoublyLinkedList<T>::forEach(void(*func)(T))
 	{
 		for (Node<T> * currentNode = head; currentNode != 0; currentNode = currentNode->next)
 			(*func)(currentNode->value);
@@ -341,7 +350,7 @@ namespace MyList {
 	/// Returns -1 if the element can't be found.
 	/// </summary>
 	template <class T>
-	int DoublyLinkedList<T>::indexOf(const T & x) const
+	int DoublyLinkedList<T>::indexOf(const T& x) const
 	{
 		Node<T> * currentNode = head;
 		for (unsigned int i = 0; i < size; i++) {
