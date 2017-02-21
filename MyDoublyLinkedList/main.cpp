@@ -139,14 +139,13 @@ int main()
 
 	cout << "\n";
 
+	cout << "Using list " << listIn2 << "\n";
 	DoublyLinkedList<int>::iterator it2 = listIn2.begin();
-	it2 += 2;
-	for (int count = 0; count < 5; count++) {
-		listIn2.erase(it2);
-		cout << "erase (with iterator) in position 2 \n";
-		listIn2.print();
-	}
-	it2 -= 2;
+	it2 += 1;
+	listIn2.erase(it2);
+	cout << "erase (with iterator) in position 1 \n";
+	listIn2.print();
+	it2 -= 1;
 	for (int count = 0; count < 3; count++) {
 		listIn2.erase(it2);
 		cout << "erase (with iterator) in position 0 \n";
@@ -155,6 +154,8 @@ int main()
 
 	cout << "\n";
 
+	list.pushBack(2);
+	cout << "Using list " << list << "\n";
 	cout << "The index of element 1 is " << list.indexOf(1) << "\n";
 	cout << "The index of element 0 is " << list.indexOf(0) << "\n";
 	cout << "The index of element 2 is " << list.indexOf(2) << "\n";
@@ -249,10 +250,10 @@ int main()
 
 	cout << "The element in position 6 of list " << list << " is " << list[6] << "\n";
 	try {
-		cout << "The element in position 8 of list " << list << " is " << list[8] << "\n";
+		cout << "The element in position 8 of list " << list << " is " << list[9] << "\n";
 	}
 	catch (runtime_error e) {
-		cout << "Attempted to get element in position 8 but got \"" << e.what() << "\" exception, as expected \n";
+		cout << "Attempted to get element in position 9 but got \"" << e.what() << "\" exception, as expected \n";
 	}
 	try {
 		cout << "The element in position -1 of list " << list << " is " << list[-1] << "\n";

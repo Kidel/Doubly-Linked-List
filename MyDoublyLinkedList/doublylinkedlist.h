@@ -99,8 +99,7 @@ namespace MyList {
 	template <class T>
 	typename DoublyLinkedList<T>::iterator DoublyLinkedList<T>::end() const
 	{
-		if (tail == 0) return iterator(tail);
-		return iterator(tail->next);
+		return iterator();
 	}
 
 	template <class T>
@@ -392,8 +391,8 @@ namespace MyList {
 	template <class T>
 	DoublyLinkedList<T>& DoublyLinkedList<T>::concat(const DoublyLinkedList<T>& list)
 	{
-		for (Node<T>* currentNode = list.head; currentNode != 0; currentNode = currentNode->next)
-			pushBack(currentNode->value);
+		for (iterator i = list.begin(); i != list.end(); i++) 
+			pushBack(i.currentNode->value);
 		return *this;
 	}
 
@@ -403,8 +402,8 @@ namespace MyList {
 	template <class T>
 	DoublyLinkedList<T>& DoublyLinkedList<T>::forEach(void(*func)(T))
 	{
-		for (Node<T>* currentNode = head; currentNode != 0; currentNode = currentNode->next)
-			(*func)(currentNode->value);
+		for (iterator i = begin(); i != end(); i++) 
+			(*func)(i.currentNode->value);
 		return *this;
 	}
 
@@ -414,8 +413,8 @@ namespace MyList {
 	template <class T>
 	bool DoublyLinkedList<T>::every(bool(*func)(T))
 	{
-		for (Node<T>* currentNode = head; currentNode != 0; currentNode = currentNode->next)
-			if (!(*func)(currentNode->value)) return false;
+		for (iterator i = begin(); i != end(); i++) 
+			if (!(*func)(i.currentNode->value)) return false;
 		return true;
 	}
 
@@ -425,8 +424,8 @@ namespace MyList {
 	template <class T>
 	bool DoublyLinkedList<T>::any(bool(*func)(T))
 	{
-		for (Node<T>* currentNode = head; currentNode != 0; currentNode = currentNode->next)
-			if ((*func)(currentNode->value)) return true;
+		for (iterator i = begin(); i != end(); i++)
+			if ((*func)(i.currentNode->value)) return true;
 		return false;
 	}
 
@@ -437,10 +436,10 @@ namespace MyList {
 	template <class T>
 	int DoublyLinkedList<T>::indexOf(const T& x) const
 	{
-		Node<T>* currentNode = head;
-		for (unsigned int i = 0; i < size; i++) {
-			if (currentNode->value == x) return i;
-			currentNode = currentNode->next;
+		int index = 0;
+		for (iterator i = begin(); i != end(); i++) {
+			if (i.currentNode->value == x) return index;
+			++index;
 		}
 		return -1;
 	}

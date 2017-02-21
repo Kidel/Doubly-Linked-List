@@ -33,6 +33,9 @@ namespace MyList
 		Node<T>* currentNode = 0;
 
 		template <class T> friend class DoublyLinkedList;
+
+	private: 
+		Node<T>* anchor = 0;
 	};
 
 	template <class T>
@@ -83,6 +86,7 @@ namespace MyList
 	template <class T>
 	Iterator<T>& Iterator<T>::operator++()
 	{
+		if (currentNode->next == 0) anchor = currentNode;
 		currentNode = currentNode->next;
 		return *this;
 	}
@@ -98,6 +102,10 @@ namespace MyList
 	template <class T>
 	Iterator<T>& Iterator<T>::operator--()
 	{
+		if (isNull()) {
+			currentNode = anchor;
+			return *this;
+		}
 		currentNode = currentNode->previous;
 		return *this;
 	}
