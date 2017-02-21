@@ -43,8 +43,27 @@ int main()
 	cout << "pushFront 1 and 0, then pushBack 2\n";
 	list.print();
 	cout << "From cout: " << list << "\n";
-
 	cout << "is it empty? " << (list.isEmpty()? "True":"False") << "\n";
+
+	cout << "\n";
+
+	cout << "Copy of the list\n";
+	DoublyLinkedList<int> listCopy;
+	cout << (listCopy = list) << "\n";
+	cout << "pushBack 2 to original list\n";
+	list.pushBack(2);
+	cout << "Copy: " << listCopy << ". Original: " << list << "\n";
+
+	cout << "\n";
+
+	cout << "Initialization using initializer_list {1, 2, 3}\n";
+	DoublyLinkedList<int> listIn = { 1, 2, 3 };
+	cout << listIn << "\n";
+
+	cout << "Empty initialization and then assignment using initializer_list {1, 2, 3}\n";
+	DoublyLinkedList<int> listIn2;
+	listIn2 = { 1, 2, 3 };
+	cout << listIn2 << "\n";
 
 	cout << "\n";
 

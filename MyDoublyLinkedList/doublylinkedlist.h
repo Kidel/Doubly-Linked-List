@@ -11,6 +11,7 @@ namespace MyList {
 	{
 	public:
 		DoublyLinkedList() = default;
+		DoublyLinkedList(const initializer_list<T> l);
 		DoublyLinkedList(const DoublyLinkedList<T>& list);
 		~DoublyLinkedList();
 
@@ -31,7 +32,8 @@ namespace MyList {
 		bool every(bool(*func)(T));
 		bool any(bool(*func)(T));
 
-		void operator=(const DoublyLinkedList<T>& list);
+		DoublyLinkedList<T>& operator=(const initializer_list<T> l);
+		DoublyLinkedList<T>& operator=(const DoublyLinkedList<T>& list);
 		bool operator==(const DoublyLinkedList<T>& list);
 		T& operator[](unsigned const int index);
 
@@ -53,49 +55,52 @@ namespace MyList {
 	// https://isocpp.org/wiki/faq/templates#templates-defn-vs-decl
 
 	template <class T>
-	DoublyLinkedList<T>::DoublyLinkedList(const DoublyLinkedList<T>& list)
+	DoublyLinkedList<T>::DoublyLinkedList(initializer_list<T> l) : DoublyLinkedList<T>()
 	{
-		head = 0;
-		tail = 0;
-		size = 0;
-		concat(list);
+		*this = l;
 	}
 
-	/*template <class T>
-	DoublyLinkedList<T>::DoublyLinkedList(const initializer_list<T> l)
+	template <class T>
+	DoublyLinkedList<T>::DoublyLinkedList(const DoublyLinkedList<T>& list) : DoublyLinkedList<T>()
 	{
-		head = 0;
-		tail = 0;
-		size = 0;
-		concat(list);
-	}*/
+		*this = list;
+	}
 
 	template <class T>
 	DoublyLinkedList<T>::~DoublyLinkedList()
 	{
-		Node <T> * currentNode = head;
+		Node<T> * currentNode = head;
 		while (currentNode != 0)
 		{
-			Node <T> * successor = currentNode->next;
+			Node<T> * successor = currentNode->next;
 			delete currentNode;
 			currentNode = successor;
 		}
 	}
 
 	template <class T>
-	void DoublyLinkedList<T>::operator=(const DoublyLinkedList<T>& list)
+	DoublyLinkedList<T>& DoublyLinkedList<T>::operator=(initializer_list<T> l)
 	{
-		head = list.head;
-		tail = list.tail;
-		size = list.size;
+		initializer_list<T>::iterator it;
+		for (it = l.begin(); it != l.end(); ++it)
+			pushBack(*it);
+
+		return *this;
+	}
+
+	template <class T>
+	DoublyLinkedList<T>& DoublyLinkedList<T>::operator=(const DoublyLinkedList<T>& list)
+	{
+		concat(list);
+		return *this;
 	}
 
 	template <class T>
 	bool DoublyLinkedList<T>::operator==(const DoublyLinkedList<T>& list)
 	{
 		if (size == list.getSize()) {
-			Node <T> * currentNode = head;
-			Node <T> * currentListNode = list.head;
+			Node<T> * currentNode = head;
+			Node<T> * currentListNode = list.head;
 
 			while (currentNode != 0)
 			{
@@ -117,14 +122,14 @@ namespace MyList {
 		if (index < 0 || index >= size)
 			throw runtime_error("Index out of bounds");
 		if (index < size / 2) {
-			Node <T> * currentNode = head;
+			Node<T> * currentNode = head;
 			for (unsigned int i = 0; i < size; i++) {
 				if (i == index) return currentNode->value;
 				currentNode = currentNode->next;
 			}
 		}
 		else {
-			Node <T> * currentNode = tail;
+			Node<T> * currentNode = tail;
 			for (unsigned int i = size-1; i >=0 ; i--) {
 				if (i == index) return currentNode->value;
 				currentNode = currentNode->previous;
