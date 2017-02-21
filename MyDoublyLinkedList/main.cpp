@@ -119,6 +119,40 @@ int main()
 
 	cout << "\n";
 
+	cout << "Using list " << listIn2 << "\n";
+	DoublyLinkedList<int>::iterator it = listIn2.begin();
+	listIn2.insert(it, 5);
+	cout << "insert 5 (with iterator) in position 0\n";
+	listIn2.print();
+	it++;
+	listIn2.insert(it, 6);
+	cout << "insert 6 (with iterator) in position 1\n";
+	listIn2.print();
+	it++;
+	for (int count = 0; count < 3; count++) {
+		listIn2.insert(it, count);
+		cout << "insert " << count << " (with iterator) in position 2\n";
+		listIn2.print();
+	}
+
+	cout << "\n";
+
+	DoublyLinkedList<int>::iterator it2 = listIn2.begin();
+	it2 += 2;
+	for (int count = 0; count < 5; count++) {
+		listIn2.erase(it2);
+		cout << "erase (with iterator) in position 2 \n";
+		listIn2.print();
+	}
+	it2 -= 2;
+	for (int count = 0; count < 3; count++) {
+		listIn2.erase(it2);
+		cout << "erase (with iterator) in position 0 \n";
+		listIn2.print();
+	}
+
+	cout << "\n";
+
 	cout << "The index of element 1 is " << list.indexOf(1) << "\n";
 	cout << "The index of element 0 is " << list.indexOf(0) << "\n";
 	cout << "The index of element 2 is " << list.indexOf(2) << "\n";
@@ -207,6 +241,10 @@ int main()
 	cout << "\n";
 
 	cout << "The element in position 2 of list " << list << " is " << list[2] << "\n";
+	DoublyLinkedList<int>::iterator it3 = list.begin();
+	it3 += 2;
+	cout << "The element in position 2 of list " << list << " is " << list[it3] << " (done with iterator)\n";
+
 	cout << "The element in position 6 of list " << list << " is " << list[6] << "\n";
 	try {
 		cout << "The element in position 8 of list " << list << " is " << list[8] << "\n";
@@ -215,7 +253,7 @@ int main()
 		cout << "Attempted to get element in position 8 but got \"" << e.what() << "\" exception, as expected \n";
 	}
 	try {
-		cout << "The element in position -1 of list " << list << " is " << list[8] << "\n";
+		cout << "The element in position -1 of list " << list << " is " << list[-1] << "\n";
 	}
 	catch (runtime_error e) {
 		cout << "Attempted to get element in position -1 but got \"" << e.what() << "\" exception, as expected \n";
