@@ -15,15 +15,15 @@ void pause()
 }
 
 DoublyLinkedList<int> flatList;
-void concatToFlatList(DoublyLinkedList<int> list) {
+void concatToFlatList(DoublyLinkedList<int>& list) {
 	flatList.concat(list);
 }
 
-bool isEqualToSix(int n) {
+bool isEqualToSix(int& n) {
 	return n == 6;
 }
 
-bool isPositive(int n) {
+bool isPositive(int& n) {
 	return n >= 0;
 }
 

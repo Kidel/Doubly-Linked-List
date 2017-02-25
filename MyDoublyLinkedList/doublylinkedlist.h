@@ -39,9 +39,9 @@ namespace MyList {
 		DoublyLinkedList<T>& erase(iterator& position);
 		DoublyLinkedList<T>& concat(const DoublyLinkedList<T>& list);
 
-		DoublyLinkedList<T>& forEach(void(*func)(T));
-		bool every(bool(*func)(T));
-		bool any(bool(*func)(T));
+		DoublyLinkedList<T>& forEach(void(*func)(T&));
+		bool every(bool(*func)(T&));
+		bool any(bool(*func)(T&));
 
 		DoublyLinkedList<T>& operator=(const initializer_list<T> l);
 		DoublyLinkedList<T>& operator=(const DoublyLinkedList<T>& list);
