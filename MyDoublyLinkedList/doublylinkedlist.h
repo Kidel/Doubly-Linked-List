@@ -400,7 +400,7 @@ namespace MyList {
 	/// <c>forEach</c> returns the list after the given function is applied to every member.
 	/// </summary>
 	template <class T>
-	DoublyLinkedList<T>& DoublyLinkedList<T>::forEach(void(*func)(T))
+	DoublyLinkedList<T>& DoublyLinkedList<T>::forEach(void(*func)(T&))
 	{
 		for (iterator i = begin(); i != end(); i++) 
 			(*func)(i.currentNode->value);
@@ -411,7 +411,7 @@ namespace MyList {
 	/// <c>every</c> returns true if every member of the list return true to the given function. 
 	/// </summary>
 	template <class T>
-	bool DoublyLinkedList<T>::every(bool(*func)(T))
+	bool DoublyLinkedList<T>::every(bool(*func)(T&))
 	{
 		for (iterator i = begin(); i != end(); i++) 
 			if (!(*func)(i.currentNode->value)) return false;
@@ -422,7 +422,7 @@ namespace MyList {
 	/// <c>any</c> returns true if at least one member of the list returns true to the given function. 
 	/// </summary>
 	template <class T>
-	bool DoublyLinkedList<T>::any(bool(*func)(T))
+	bool DoublyLinkedList<T>::any(bool(*func)(T&))
 	{
 		for (iterator i = begin(); i != end(); i++)
 			if ((*func)(i.currentNode->value)) return true;
