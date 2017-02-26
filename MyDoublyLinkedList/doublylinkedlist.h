@@ -182,7 +182,7 @@ namespace MyList {
 
 	template <class T>
 	T& DoublyLinkedList<T>::operator[](iterator& position) {
-		if (position.isNull())
+		if (position.isNull() || position == begin() - 1 || position == end())
 			throw runtime_error("Index out of bounds");
 		return *position;
 	}
@@ -271,7 +271,7 @@ namespace MyList {
 	{
 		if (isEmpty()) return *this;
 
-		Node<T>* oldNode = tail;
+		Node<T>* oldNode = tail->previous;
 		if (size > 1) {
 			tail->previous = oldNode->previous;
 			tail->previous->next = tail;
@@ -300,12 +300,12 @@ namespace MyList {
 
 		if (position < size / 2) {
 			counter = 0;
-			for (it = begin(); counter < position; it++)
+			for (it = begin(); counter < position && it != end(); ++it)
 				counter++;
 		}
 		else {
-			counter = size - 1;
-			for (it = end() - 1; counter < position; it--)
+			counter = size;
+			for (it = end(); counter > position && it != begin(); --it)
 				counter--;
 		}
 
@@ -330,12 +330,12 @@ namespace MyList {
 
 		if (position < size / 2) {
 			counter = 0;
-			for (it = begin(); counter < position; it++)
+			for (it = begin(); counter < position && it != end(); ++it)
 				counter++;
 		}
 		else {
-			counter = size - 1;
-			for (it = end() - 1; counter < position; it--)
+			counter = size;
+			for (it = end(); counter > position && it != begin(); --it)
 				counter--;
 		}
 
@@ -356,7 +356,7 @@ namespace MyList {
 			position = begin();
 			return *this;
 		}
-		if (position == end() || position == end() - 1) {
+		if (position == end()) {
 			pushBack(x);
 			position = end();
 			return *this;
@@ -380,14 +380,16 @@ namespace MyList {
 	template <class T>
 	DoublyLinkedList<T>& DoublyLinkedList<T>::erase(iterator& position)
 	{
-		if (position.isNull() || size == 0 || position == end()) 
+		if (position.isNull() || size == 0 || position == end())
 			return *this;
 		if (position == begin()) {
 			popFront();
+			position = begin();
 			return *this;
 		}
 		if (position == end() - 1) {
 			popBack();
+			position = end() - 1;
 			return *this;
 		}
 

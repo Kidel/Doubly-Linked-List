@@ -46,7 +46,7 @@ int main()
 	cout << "is it empty? " << (list.isEmpty()? "True":"False") << "\n";
 
 	cout << "\n";
-	/*
+	
 	cout << "Copy of the list " << list << " is: \n";
 	DoublyLinkedList<int> listCopy;
 	cout << (listCopy = list) << "\n";
@@ -55,32 +55,28 @@ int main()
 	cout << "Copy: " << listCopy << ". Original: " << list << "\n";
 
 	cout << "\n";
-
+	
 	cout << "Initialization using initializer_list {1, 2, 3}\n";
 	DoublyLinkedList<int> listIn = { 1, 2, 3 };
 	cout << listIn << "\n";
-
+	
 	cout << "Empty initialization and then assignment using initializer_list {1, 2, 3}\n";
 	DoublyLinkedList<int> listIn2;
 	listIn2 = { 1, 2, 3 };
 	cout << listIn2 << "\n";
 
 	cout << "\n";
-
+	
 	cout << "Using list " << list << "\n";
-
 	list.popFront();
 	cout << "popFront\n";
 	list.print();
-
 	list.popFront();
 	cout << "popFront\n";
 	list.print();
-
 	list.popFront();
 	cout << "popFront\n";
 	list.print();
-
 	cout << "\n";
 
 	list.pushFront(0);
@@ -88,24 +84,24 @@ int main()
 	list.pushBack(2);
 	cout << "pushFront 0, then pushBack 1 and 2\n";
 	list.print();
+	
+	cout << "\n";
+	
+	list.popBack();
+	cout << "popBack\n";
+	list.print();
+
+	list.popBack();
+	cout << "popBack\n";
+	list.print();
+
+	list.popBack();
+	cout << "popBack\n";
+	list.print();
 
 	cout << "\n";
-
-	list.popBack();
-	cout << "popBack\n";
-	list.print();
-
-	list.popBack();
-	cout << "popBack\n";
-	list.print();
-
-	list.popBack();
-	cout << "popBack\n";
-	list.print();
-
-	cout << "\n";
-
-	for (int i = 0; i < 5; i++) {
+	
+	for (int i = 0; i < 6; i++) {
 		list.insert(2, i);
 		cout << "insert " << i << " in position 2 \n";
 		list.print();
@@ -118,7 +114,7 @@ int main()
 		cout << "erase in position 2 \n";
 		list.print();
 	}
-
+	
 	cout << "\n";
 
 	DoublyLinkedList<int> emptyList;
@@ -138,7 +134,7 @@ int main()
 	cout << emptyList << "\n";
 
 	cout << "\n";
-
+	
 	cout << "Using list " << listIn2 << "\n";
 	DoublyLinkedList<int>::iterator it2 = listIn2.begin();
 	it2 += 1;
@@ -153,7 +149,7 @@ int main()
 	}
 
 	cout << "\n";
-
+	
 	list.pushBack(2);
 	cout << "Using list " << list << "\n";
 	cout << "The index of element 1 is " << list.indexOf(1) << "\n";
@@ -264,7 +260,6 @@ int main()
 
 	cout << "\n";
 	cout << "\n";
-	*/
 
 	pause();
 
