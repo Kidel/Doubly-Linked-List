@@ -83,7 +83,7 @@ namespace MyList
 	template <class T>
 	Iterator<T>& Iterator<T>::operator++()
 	{
-		if(currentNode->next != 0)
+		if(currentNode != 0 && currentNode->next != 0)
 			currentNode = currentNode->next;
 		return *this;
 	}
@@ -99,7 +99,7 @@ namespace MyList
 	template <class T>
 	Iterator<T>& Iterator<T>::operator--()
 	{
-		if(currentNode->previous != 0)
+		if(currentNode != 0 && currentNode->previous != 0)
 			currentNode = currentNode->previous;
 		return *this;
 	}
