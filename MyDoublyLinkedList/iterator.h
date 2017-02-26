@@ -13,7 +13,6 @@ namespace MyList
 		Iterator(Node<T>* sourceNode) : currentNode(sourceNode) { }
 		Iterator(Iterator<T>* sourceIterator) : currentNode(sourceIterator.currentNode) { }
 
-		T& operator*();  // dereferencing operator
 		iterator& operator=(const iterator& i);
 		iterator& operator++(); //prefix
 		iterator operator++(int); //postfix
@@ -31,11 +30,9 @@ namespace MyList
 
 	protected:
 		Node<T>* currentNode = 0;
+		T& operator*();  // dereferencing operator
 
 		template <class T> friend class DoublyLinkedList;
-
-	private: 
-		Node<T>* anchor = 0;
 	};
 
 	template <class T>
@@ -86,7 +83,6 @@ namespace MyList
 	template <class T>
 	Iterator<T>& Iterator<T>::operator++()
 	{
-		if (currentNode->next == 0) anchor = currentNode;
 		currentNode = currentNode->next;
 		return *this;
 	}
@@ -102,10 +98,6 @@ namespace MyList
 	template <class T>
 	Iterator<T>& Iterator<T>::operator--()
 	{
-		if (isNull()) {
-			currentNode = anchor;
-			return *this;
-		}
 		currentNode = currentNode->previous;
 		return *this;
 	}

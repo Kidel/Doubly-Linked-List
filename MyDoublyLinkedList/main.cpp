@@ -32,7 +32,7 @@ int main()
 	DoublyLinkedList<int> list;
 	cout << "Empty list <int>\n";
 	list.print();
-
+	
 	cout << "Is it empty? " << (list.isEmpty() ? "True" : "False") << "\n";
 
 	cout << "\n";
@@ -46,7 +46,7 @@ int main()
 	cout << "is it empty? " << (list.isEmpty()? "True":"False") << "\n";
 
 	cout << "\n";
-
+	/*
 	cout << "Copy of the list " << list << " is: \n";
 	DoublyLinkedList<int> listCopy;
 	cout << (listCopy = list) << "\n";
@@ -264,6 +264,7 @@ int main()
 
 	cout << "\n";
 	cout << "\n";
+	*/
 
 	pause();
 

@@ -11,7 +11,7 @@ namespace MyList {
 	class DoublyLinkedList
 	{
 	public:
-		DoublyLinkedList() = default;
+		DoublyLinkedList();
 		DoublyLinkedList(const initializer_list<T> l);
 		DoublyLinkedList(const DoublyLinkedList<T>& list);
 		~DoublyLinkedList();
@@ -61,10 +61,16 @@ namespace MyList {
 		Node<T>* head = 0;
 		Node<T>* tail = 0;
 		unsigned int size = 0;
+
+	private: 
+		void initialize();
 	};
 
-	// I can’t separate the definition of my template class from its declaration
-	// https://isocpp.org/wiki/faq/templates#templates-defn-vs-decl
+	template <class T>
+	DoublyLinkedList<T>::DoublyLinkedList()
+	{
+		initialize();
+	}
 
 	template <class T>
 	DoublyLinkedList<T>::DoublyLinkedList(initializer_list<T> l) : DoublyLinkedList<T>()
@@ -91,15 +97,27 @@ namespace MyList {
 	}
 
 	template <class T>
+	void DoublyLinkedList<T>::initialize()
+	{
+		head = new Node<T>();
+		tail = new Node<T>();
+		tail->previous = head;
+		tail->next = 0;
+		head->next = tail;
+		head->previous = 0;
+		size = 0;
+	}
+
+	template <class T>
 	typename DoublyLinkedList<T>::iterator DoublyLinkedList<T>::begin() const
 	{
-		return iterator(head);
+		return iterator(head->next);
 	}
 
 	template <class T>
 	typename DoublyLinkedList<T>::iterator DoublyLinkedList<T>::end() const
 	{
-		return iterator();
+		return iterator(tail);
 	}
 
 	template <class T>
@@ -123,15 +141,15 @@ namespace MyList {
 	bool DoublyLinkedList<T>::operator==(const DoublyLinkedList<T>& list)
 	{
 		if (size == list.getSize()) {
-			Node<T>* currentNode = head;
-			Node<T>* currentListNode = list.head;
+			iterator it = begin();
+			iterator listIt = list.begin();
 
-			while (currentNode != 0)
+			while (it != end())
 			{
-				if (currentNode->value == currentListNode->value)
+				if (*it == *listIt)
 				{
-					currentNode = currentNode->next;
-					currentListNode = currentListNode->next;
+					it++;
+					listIt++;
 				}
 				else return false;
 			}
@@ -146,17 +164,17 @@ namespace MyList {
 		if (index < 0 || index >= size)
 			throw runtime_error("Index out of bounds");
 		if (index < size / 2) {
-			Node<T>* currentNode = head;
-			for (unsigned int i = 0; i < size; i++) {
-				if (i == index) return currentNode->value;
-				currentNode = currentNode->next;
+			unsigned int counter = 0;
+			for (iterator it = begin(); it != end(); it++) {
+				if (counter == index) return *it;
+				counter++;
 			}
 		}
 		else {
-			Node<T>* currentNode = tail;
-			for (unsigned int i = size-1; i >=0 ; i--) {
-				if (i == index) return currentNode->value;
-				currentNode = currentNode->previous;
+			unsigned int counter = size-1;
+			for (iterator it = end() - 1; it != begin(); it--) {
+				if (counter == index) return *it;
+				counter--;
 			}
 		}
 		throw runtime_error("Unexpected error");
@@ -172,7 +190,7 @@ namespace MyList {
 	template <class T>
 	bool DoublyLinkedList<T>::isEmpty() const
 	{
-		return (size == 0 || head == 0 || tail == 0);
+		return (size == 0);
 	}
 
 	template <class T>
@@ -184,27 +202,25 @@ namespace MyList {
 	template <class T>
 	T& DoublyLinkedList<T>::getHead() const
 	{
-		return head->value;
+		return head->next->value;
 	}
 
 	template <class T>
 	T& DoublyLinkedList<T>::getTail() const
 	{
-		return tail->value;
+		return tail->previous->value;
 	}
 
 	template <class T>
 	DoublyLinkedList<T>& DoublyLinkedList<T>::pushFront(const T& x)
 	{
 		Node<T>* newNode = new Node<T>(x);
-		if (!isEmpty()) {
-			newNode->next = head;
-			head->previous = newNode;
-			head = newNode;
-		}
-		else {
-			head = tail = newNode;
-		}
+
+		newNode->previous = head;
+		newNode->next = head->next;
+		head->next = newNode;
+		newNode->next->previous = newNode;
+
 		size++;
 
 		return *this;
@@ -214,14 +230,12 @@ namespace MyList {
 	DoublyLinkedList<T>& DoublyLinkedList<T>::pushBack(const T& x)
 	{
 		Node<T>* newNode = new Node<T>(x);
-		if (!isEmpty()) {
-			newNode->previous = tail;
-			tail->next = newNode;
-			tail = newNode;
-		}
-		else {
-			head = tail = newNode;
-		}
+
+		newNode->next = tail;
+		newNode->previous = tail->previous;
+		tail->previous = newNode;
+		newNode->previous->next = newNode;
+
 		size++;
 
 		return *this;
@@ -235,14 +249,13 @@ namespace MyList {
 	{
 		if (isEmpty()) return *this;
 
-		Node<T>* oldNode = head;
-		if (size > 1 && head->next != 0) {
-			head = head->next;
-			head->previous = 0;
+		Node<T>* oldNode = head->next;
+		if (size > 1) {
+			head->next = oldNode->next;
+			head->next->previous = head;
 		}
 		else {
-			head = 0;
-			tail = 0;
+			initialize();
 		}
 		delete oldNode;
 		size--;
@@ -259,13 +272,12 @@ namespace MyList {
 		if (isEmpty()) return *this;
 
 		Node<T>* oldNode = tail;
-		if (size > 1 && tail->previous != 0) {
-			tail = tail->previous;
-			tail->next = 0;
+		if (size > 1) {
+			tail->previous = oldNode->previous;
+			tail->previous->next = tail;
 		}
 		else {
-			head = 0;
-			tail = 0;
+			initialize();
 		}
 		delete oldNode;
 		size--;
@@ -283,25 +295,21 @@ namespace MyList {
 		if (position == 0 || size == 0) return pushFront(x);
 		if (position >= size) return pushBack(x);
 
-		Node<T>* currentNode;
+		iterator it;
+		unsigned int counter;
 
 		if (position < size / 2) {
-			currentNode = head;
-			for (unsigned int i = 0; i < position; i++)
-				currentNode = currentNode->next;
+			counter = 0;
+			for (it = begin(); counter < position; it++)
+				counter++;
 		}
 		else {
-			currentNode = tail;
-			for (unsigned int i = size - 1; i > position; i--)
-				currentNode = currentNode->previous;
+			counter = size - 1;
+			for (it = end() - 1; counter < position; it--)
+				counter--;
 		}
 
-		Node<T>* newNode = new Node<T>(x);
-		newNode->next = currentNode;
-		newNode->previous = currentNode->previous;
-		currentNode->previous->next = newNode;
-		currentNode->previous = newNode;
-		size++;
+		insert(it, x);
 
 		return *this;
 	}
@@ -317,25 +325,21 @@ namespace MyList {
 		if (position == size - 1) return popBack();
 		if (position >= size) return *this;
 
-		Node<T>* currentNode;
+		iterator it;
+		unsigned int counter;
 
 		if (position < size / 2) {
-			currentNode = head;
-			for (unsigned int i = 0; i < position; i++)
-				currentNode = currentNode->next;
+			counter = 0;
+			for (it = begin(); counter < position; it++)
+				counter++;
 		}
 		else {
-			currentNode = tail;
-			for (unsigned int i = size - 1; i > position; i--)
-				currentNode = currentNode->previous;
+			counter = size - 1;
+			for (it = end() - 1; counter < position; it--)
+				counter--;
 		}
-		
-		Node<T>* oldNode = currentNode;
-		currentNode = currentNode->previous;
-		currentNode->next = currentNode->next->next;
-		currentNode->next->previous = currentNode;
-		delete oldNode;
-		size--;
+
+		erase(it);
 
 		return *this;
 	}
@@ -349,16 +353,22 @@ namespace MyList {
 	{
 		if (size == 0 || position == begin() || position.isNull()) {
 			pushFront(x);
-			position = iterator(head);
+			position = begin();
 			return *this;
 		}
+		if (position == end() || position == end() - 1) {
+			pushBack(x);
+			position = end();
+			return *this;
+		}
+
 		Node<T>* newNode = new Node<T>(x);
 		newNode->previous = position.currentNode->previous;
 		newNode->next = position.currentNode;
 		position.currentNode->previous = newNode;
-		if (newNode->previous != 0)
-			newNode->previous->next = newNode;
+		newNode->previous->next = newNode;
 		position = iterator(newNode);
+
 		size++;
 		return *this;
 	}
@@ -370,17 +380,23 @@ namespace MyList {
 	template <class T>
 	DoublyLinkedList<T>& DoublyLinkedList<T>::erase(iterator& position)
 	{
-		if (position.isNull() || size == 0) return *this;
+		if (position.isNull() || size == 0 || position == end()) 
+			return *this;
+		if (position == begin()) {
+			popFront();
+			return *this;
+		}
+		if (position == end() - 1) {
+			popBack();
+			return *this;
+		}
 
 		iterator newIterator(position.currentNode->next);
 		if (position.currentNode->next != 0)
 			position.currentNode->next->previous = position.currentNode->previous;
 		if (position.currentNode->previous != 0)
 			position.currentNode->previous->next = position.currentNode->next;
-		if (position == begin())
-			head = position.currentNode->next;
-		if (position+1 == end())
-			tail = position.currentNode->previous;
+
 		delete position.currentNode;
 		position = newIterator;
 		size--;
@@ -452,7 +468,7 @@ namespace MyList {
 		oss << "[ ";
 		for (iterator i = begin(); i != end(); i++) {
 			oss << i.currentNode->value;
-			if ((i+1) != end())
+			if (i != end() - 1)
 				oss << separator;			
 			oss << ' ';
 		}
